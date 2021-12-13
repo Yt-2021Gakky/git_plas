@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+
+
+
+<html>
+
+<head>
+<title>JavaScriptCookie</title>
+
+<script language="JavaScript">
+
+//JavaScriptを使うときのお約束。
+//JavaScript非対応ブラウザのために、と書いておく。
+//本当はブラウザのバージョンチェックなどもする方が無難だが。
+ckary = new Array();
+//配列ckaryの宣言。
+
+function setck(){
+//cookieを保存したりするfunction（関数）：setck()の宣言。
+
+	ckary[0] = document.forms[0].usr.value;
+	ckary[1] = document.forms[0].eml.value;
+	ckary[2] = document.forms[0].url.value;
+//フォームに記入された値を配列ckaryに代入。
+
+	//alert('◎フォームの内容\n'+ckary[0]+'　'+ckary[1]+'　'+ckary[2]);
+//動作テスト用alert。//でコメントアウトしてるから、実際は動作しない。
+
+	exp=new Date();
+//新規Dateオブジェクトexpを作成。デフォルトでは現在時間を持つ。
+
+	exp.setTime(exp.getTime()+1000*60*60*24*1);
+//現在時間に、1日分（JavaScriptの時間単位は1/1000秒）足したものを、Dateオブジェクトexpに設定する。
+
+	ckstr = escape(ckary[0]);
+//変数ckstrに、配列ckaryの最初の値をESCAPEしたものを代入。
+//escape()は記号やマルチバイト文字などを%##（##は文字コード）というような形に置換した値を返す。
+//フォームを送信する場合などにブラウザが行う処理と同様である。
+//ちなみに、ブラウザによって返す値は異なるので注意。（NN4はS-JISのコード、IE5はUTF-16のコード、など）
+//文字コードの話を参照のこと。
+
+	i = 1;
+//次のループのための準備。
+
+	while (ckary[i]){
+		ckstr += "%00" + escape(ckary[i]);
+		i++;
+	}
+//ckaryの全要素について、ループ内の処理を実行する。
+//このループで、変数ckstrに、%00とESCAPEされた配列ckaryの値を連結する。
+//%00はヌル文字をESCAPEしたものであり、
+//通常、フォームに入力された文字列をESCAPEしても出てくることはないので、
+//区切り記号として利用している。
+//結果として、
+ckstr = escape(ckary[0]) + "%00" + escape(ckary[1]) + "%00" + escape(ckary[2]);
+//という処理を行ったことになるが、変数が配列なぶん、汎用性が高い。
+
+	//alert('◎ESCAPEされた文字列'+ckstr);
+//動作テスト用。
+
+	document.cookie = "ASH_jsc=" + ckstr + "; expires=" + exp.toGMTString();
+//クッキー情報を書き込む、ASH_jscというのは単なる名前、
+//呼び出す際に必要になる。勝手につけても問題ない。
+//expires=で、cookieの賞味期限を設定している。
+//ここではさっきexpに設定した現在の1日後になる。
+//標準形式に変換する必要があるのでtoGMTstring()を用いている。
+
+}
+//setck()はここまで。
+
+function getck(){
+//cookieを呼び出したりする関数getck()の宣言
+
+	//alert('◎cookie文字列全体\n'+document.cookie);
+//動作テスト用。
+
+	cklng = document.cookie.length;
+//cookie文字列全部の長さ。理論編の例で言うところの
+//「name=文字列; name2=文字列2; name3=文字列3; name4=文字列4;」
+//全部の長さ。
+
+	ckary = document.cookie.split("; ");
+//配列ckaryに、cookie文字列を"; "（セミコロン、スペース）で区切って配列に代入する。
+//これで『name=文字列』が配列の各要素に代入される。（ckaryは使いまわし）
+
+	ckstr = "";
+//ckstrの中身を空文字列に設定しておく。（ckstrも使いまわし）
+//下のループでckstrがちゃんと設定されていないと、
+//後でckstr.split("%00")するときエラーになるため、あらかじめ代入してある。
+
+	i = 0;
+//次のループのための準備。
+
+	while (ckary[i]){
+		if (ckary[i].substr(0,8) == "ASH_jsc="){
+			ckstr = ckary[i].substr(8,ckary[i].length);
+			break;
+		}
+		i++;
+	}
+//このループで、必要な文字列を抽出している。
+//ckaryの各要素（「name=文字列」）に対して、最初の8文字が「ASH_jsc=」かどうかをチェックし、
+//そうであれば残りの部分を取り出してckstrに代入する。
+//代入されたら、breakでループを直ちに終了する。
+
+	//alert('◎抽出された文字列\n'+ckary[i]);
+//おなじみ、動作テスト用。
+
+	ckary = ckstr.split("%00");
+//配列ckary（また使いまわし）に、抽出した文字列を%00で区切ったものを代入する。
+//ckstrがちゃんと定義されていないとエラーが発生する。
+
+	if (ckary[0]) document.forms[0].usr.value = unescape(ckary[0]);
+	if (ckary[1]) document.forms[0].eml.value = unescape(ckary[1]);
+	if (ckary[2]) document.forms[0].url.value = unescape(ckary[2]);
+//文字列をUNESCAPEしたものを、フォームに書き込む。unescape()は、escape()の逆の処理を行う。
+//各文字列が空だったらなにもしない。
+
+}
+//getck()ここまで。
+
+// -->
+</script>
+//スクリプト終了。
+
+</head>
+
+<body bgcolor="#ffffff" onLoad="getck()">
+<!--  ページが読み込まれたらcookie情報を呼び出す。 -->
+
+<form>
+<input type="text" name="usr" size="40"><br>
+<input type="text" name="eml" size="40"><br>
+<input type="text" name="url" size="40"><br>
+<input type="button" value="記録" onClick="setck()">
+<!-- 記録ボタンを押したときcookie情報を保存する。 -->
+
+　　<input type="button" value="呼び出し" onClick="getck()">
+<!-- 呼び出しボタンでcookie情報を呼び出す。-->
+
+　　<input type="reset" value="りせっと">
+<!--  フォームの中身を初期値（valueで指定した値）に戻す。 -->
+
+</form>
+
+
+</body>
+</html>
