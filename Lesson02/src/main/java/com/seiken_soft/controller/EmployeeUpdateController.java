@@ -20,7 +20,7 @@ import com.seiken_soft.model.impl.EmployeeUpdateModelImpl;
 public class EmployeeUpdateController extends HttpServlet{
 		
 		//グローバル変数
-		int flg =0;
+		int flg = 0;
 		
 			public void doGet(
 				HttpServletRequest request, HttpServletResponse response
@@ -44,7 +44,6 @@ public class EmployeeUpdateController extends HttpServlet{
 				HttpServletRequest request, HttpServletResponse response
 			) throws ServletException, IOException {
 				PrintWriter out=response.getWriter();
-				int flg = 0;
 				try {
 					
 					
@@ -57,12 +56,10 @@ public class EmployeeUpdateController extends HttpServlet{
 					out.println("doPost()メソッド");
 					request.getRequestDispatcher("/WEB-INF/view/mainteEmployee.jsp")
 					.forward(request, response);
+					 flg=1;
+					}
 					
-					flg=1;
-					
-					
-					
-					
+					//2回目のpost
 					if(flg==1){
 					//③jspのNAME要素取得
 					//VALUEの内容が渡される
@@ -98,8 +95,8 @@ public class EmployeeUpdateController extends HttpServlet{
 					.forward(request, response);
 					
 					flg = 0;
-						}
 					}
+					
 					
 					
 					//二回目は処理？？

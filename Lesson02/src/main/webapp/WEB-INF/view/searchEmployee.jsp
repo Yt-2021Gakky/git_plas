@@ -10,13 +10,23 @@
 <%-- clickBtn()のconstに値を設定(set)--%>
 		<script>
 			function clickBtn() {	
-			const formElements = document.forms.
-    		setid = document.getElementById("");
+
+			//form のname属性を取得(name部分)
+			const formElements = document.forms.hid;
+			
+			//input部分のname属性の値を(name属性のvalue部)をセットして
+			//cookieに値をセット
+			document.cookie = formElements.id.value;
+			
 			}
 		</script>
 </head>
 <body>
-<% request.get%>
+<!-- 方法2 -->
+<!-- List型で受け取った値をBeenにセット -->
+<%-- request.getDispather()--%>
+
+<!-- セットした値をリクエストで送る -->
 
 
 <!-- ①msg送信 -->
@@ -31,12 +41,11 @@
 <%--JSTLタグライブラリを使用、Coreタグライブラリの繰り返し文を使用(foreach) --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<% int val = 0; %>
 <table border = 1>
-<form action="update" method="post">
+<form action="update" name="hid" method="post">
 	<c:forEach var="p" items="${list}">
 		<tr>
-		<input type="hidden" name="id" value=${p.id}>
+		<input type="hidden" name="id" value="${p.id}">
 		<!--   tdにある、n番目の修正ボタンが押された時 -->
 		
 		<!-- input type valueの値にtdの一番目の値をセットしたい -->
