@@ -9,14 +9,22 @@
 <title>検索画面</title>
 <%-- clickBtn()のconstに値を設定(set)--%>
 		<script>
-			function clickBtn() {	
+			//Javascriptで、どこを選択するか
+			function clickBtn(pid) {	
 
 			//form のname属性を取得(name部分)
-			const formElements = document.forms.hid;
+			const formElements = document.hid;
 			
-			//input部分のname属性の値を(name属性のvalue部)をセットして
+			//どこ？社員IDで
+			//input部分のname属性の値にpidをセット
+			formElements.h_name.value = pid;
+			
+			//input部分のname属性の値を(name属性のvalue部)をセット
+			 //formElements.h_name.value;
+			
+			
 			//cookieに値をセット
-			document.cookie = formElements.id.value;
+			//document.cookie = formElements.id.value;
 			
 			}
 		</script>
@@ -41,25 +49,41 @@
 <%--JSTLタグライブラリを使用、Coreタグライブラリの繰り返し文を使用(foreach) --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<table border = 1>
-<form action="update" name="hid" method="post">
+
+
+
+<form action="mainte" name="hid" method="post">
+<!--  ここのクッキーでわたせない<input type="hidden" name="id" value="${p.id}"> -->
+
+	<table border = 1>
+
+<!-- クリックした時どの値を取得するか -->
+
 	<c:forEach var="p" items="${list}">
 		<tr>
-		<input type="hidden" name="id" value="${p.id}">
 		<!--   tdにある、n番目の修正ボタンが押された時 -->
 		
 		<!-- input type valueの値にtdの一番目の値をセットしたい -->
 		<td>${p.id}</td><td>${p.name}</td><td>${p.mailaddress}</td>
 		<td>
-		<input type="submit" value="修正" onclick="clickBtn()" >
-		</form></td>
+		
+		<!-- clickBtnの引数に社員IDを指定  -->
+		<input type="submit" value="修正" onclick="clickBtn(${p.id})" >
+		<!--  <input type="hidden" name="id" value="${p.id}"> -->
+		<!--</form>--></td>
 		</tr>
+		<!--  ここのクッキーでわたせない<input type="hidden" name="id" value="${p.id}">-->
+	
 	</c:forEach>
 	
+	</table>
 	
+	<!-- valueはいらない -->
+	<!--  -->
+	<input type="hidden" name="h_name">
+</form>
 	
-	</form>
-</table>
+
 
 
 <%-- うまくいかなかった。同じjspファイルではうまくいかないが、別のjspファイルではうまくいった --%>

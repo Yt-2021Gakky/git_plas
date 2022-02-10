@@ -20,7 +20,7 @@ import com.seiken_soft.been.M_emploee;
 public class EmployeeUpdateModelImpl {
 	//public 型
 	//public List<String> dbconnect() {
-	public List<M_emploee> dbconnect(String msg1,String msg2,String msg3) {
+	public List<M_emploee> dbconnect(String id,String name,String mailaddress) {
 		
 		//リスト型インターフェース、要素beanの型パラメータでArrayList型で管理する。
 		//List<オブジェクト型>、<M_emploee>明示的に型を分かるようにしている。<>なくても動く
@@ -59,12 +59,11 @@ st.setString(1, name
 				"update m_emploee set EMPLOYEE_NAME=? ,E_MAILADDRESS=? where EMPLOYEE_ID=?");
 				
 				//プレースホルダ、?部一つ目、二つ目
-				st.setString(1,msg2);
+				st.setString(1,name);
 				
-				st.setString(2,msg3);
+				st.setString(2,mailaddress);
 				
-				//前方一致
-				st.setString(3,msg1);
+				st.setString(3,id);
 				
 				//SQL文の作成と発行
 				//PreparedStatement st=con.prepareStatement(
@@ -73,7 +72,7 @@ st.setString(1, name
 				//DBの結果を発行
 				int line=st.executeUpdate();
 				
-				if(line>0) {
+				if(line<0) {
 		
 					System.out.println("error");
 				}

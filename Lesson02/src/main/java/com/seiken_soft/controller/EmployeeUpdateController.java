@@ -19,8 +19,6 @@ import com.seiken_soft.model.impl.EmployeeUpdateModelImpl;
 @WebServlet(urlPatterns="/update")
 public class EmployeeUpdateController extends HttpServlet{
 		
-		//グローバル変数
-		int flg = 0;
 		
 			public void doGet(
 				HttpServletRequest request, HttpServletResponse response
@@ -48,19 +46,7 @@ public class EmployeeUpdateController extends HttpServlet{
 					
 					
 					
-					//1回目のpost
-					if(flg==0) {
 					
-					
-					//フォワード処理
-					out.println("doPost()メソッド");
-					request.getRequestDispatcher("/WEB-INF/view/mainteEmployee.jsp")
-					.forward(request, response);
-					 flg=1;
-					}
-					
-					//2回目のpost
-					if(flg==1){
 					//③jspのNAME要素取得
 					//VALUEの内容が渡される
 					String msg1 = request.getParameter("id");
@@ -94,8 +80,6 @@ public class EmployeeUpdateController extends HttpServlet{
 					request.getRequestDispatcher("/WEB-INF/view/searchEmployee.jsp")
 					.forward(request, response);
 					
-					flg = 0;
-					}
 					
 					
 					
