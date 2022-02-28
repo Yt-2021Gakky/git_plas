@@ -54,7 +54,8 @@
     <!-- MySQL DataSource（MySQLが未設定なのでここは後で変更） -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
       <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
-      <property name="url" value="jdbc:mysql://localhost:3306/TestDB?useSSL=false&amp;serverTimezone=UTC"></property>
+      <property name="url" value="jdbc:mysql://localhost:3306/TestDB?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=GMT&amp;useUnicode=true&amp;characterEncoding=UTF-8"></property>
+      <!--  <property name="url" value="jdbc:mysql://localhost:3306/TestDB?useSSL=false&amp;serverTimezone=UTC"></property> -->
       <property name="username" value="testuser"></property>
       <property name="password" value="testuser"></property>
       <property name="defaultAutoCommit" value="false"></property>

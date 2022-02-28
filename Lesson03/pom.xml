@@ -48,6 +48,18 @@
         </configuration>
         <!-- 2021/05/11　追加（ここまで） -->
       </plugin>
+	    <plugin>	
+	        <groupId>org.mybatis.generator</groupId>	
+	        <artifactId>mybatis-generator-maven-plugin</artifactId>	
+	        <version>1.4.0</version>	
+	        <dependencies>	
+	          <dependency>	
+	            <groupId>mysql</groupId>	
+	            <artifactId>mysql-connector-java</artifactId>	
+	            <version>8.0.28</version>	
+	          </dependency>	
+	        </dependencies>	
+	      </plugin>	
     </plugins>
   </build>
   
@@ -149,6 +161,9 @@
       <version>3.5.7</version>
       <scope>compile</scope>
     </dependency>
+    
+    
+    
     <!-- Mybatis log -->
     <dependency>
       <groupId>org.bgee.log4jdbc-log4j2</groupId>
@@ -168,12 +183,12 @@
   </dependencies>
   
   <!-- HTTPS化のため追加_20220213 -->
-  <repositories>
+  <!--  <repositories>
     <repository>
       <id>central</id>
       <url>https://repo1.maven.org/maven2</url>
     </repository>
-  </repositories>
+  </repositories>-->
   <!-- 2021/05/11　追加（ここまで） -->
   
 </project>
